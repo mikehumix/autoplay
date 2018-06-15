@@ -1,0 +1,25 @@
+{
+  "name": "APMusic",
+  "version": "1.0.0",
+  "description": "Autoplay Muisc System",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "packager": "electron-packager . APMusic --win --out ./OutApp  --overwrite --icon=./app/icon.ico"
+  },
+  "repository": "https://github.com/mikehumix/autoplay",
+  "keywords": [
+    "Netease",
+    "quick",
+    "autoplay"
+  ],
+  "author": "Mikehu",
+  "license": "CC0-1.0",
+  "devDependencies": {
+    "electron": "^2.0.0",
+    "electron-packager": "^12.1.0"
+  },
+  "dependencies": {
+    "cron": "^1.3.0"
+  }
+}
