@@ -10,7 +10,7 @@ var loading = weui.loading('拼命加载中');
 var ap = new APlayer({
 	element: document.getElementById('aplayer'),
 	listFolded: false,
-	listMaxHeight: '620px',
+	listMaxHeight: '600px',
 	theme: '#1aad19',
 	volume: 1,
 	mode: "random"
@@ -20,11 +20,13 @@ var ap = new APlayer({
 var listid = localStorage.getItem('playlistid') ? localStorage.getItem('playlistid') : '912256078';
 
 //加载网易云api
-var baseurl = 'https://api.a632079.me/nm/playlist/';
+var baseurl = 'https://api.imjad.cn/cloudmusic/?type=playlist&id=';
 var neteaseurl = 'https://music.163.com/song/media/outer/url?id=';
 axios.get(baseurl + listid)
 	.then(function (response) {
 		var alltracks = response.data.playlist.tracks;
+		var info = '<span>歌单:'+ response.data.playlist.name + '</span>' + '<span>数量:'+ response.data.playlist.trackCount + '</span>'+ '<span>创建:'+ response.data.playlist.creator.nickname;
+		document.getElementById("showinfo").innerHTML = info;
 		var songs = alltracks.map(function (item) {
 			return {
 				title: item.name,

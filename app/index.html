@@ -9,9 +9,10 @@
     <link href="statics/APlayer.min.css" rel="stylesheet" type="text/css">
     <style type="text/css">
     #main {
-        width: 384px;
+        width: 410px;
         margin: 10px auto 0 auto;
         background: #fff;
+        overflow: hidden;
     }
 
     .aplayer {
@@ -29,13 +30,15 @@
         color: #999;
         text-align: center;
     }
+    #showinfo span{margin-right:10px;}
     </style>
 </head>
 
 <body>
     <div id="main" class="clearfix">
         <div class="aplayer" id="aplayer"></div>
-        <div class="copy">Powered By Mike.<br>
+        <div class="copy">Autoplay V1.0_Powered By Mike.<br>
+            <div id="showinfo"></div>
         	<span>
         	Node<script>document.write(process.versions.node)</script> /
         	Chromium<script>document.write(process.versions.chrome)</script> /
@@ -43,7 +46,6 @@
         	</span>
         </div>
     </div>
-    <div class="tws"><audio></audio></div>
     <script src="statics/APlayer.min.js"></script>
     <script src="statics/weui.min.js"></script>
     <script src="statics/axios.min.js"></script>

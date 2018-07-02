@@ -2,6 +2,8 @@ const electron = require('electron')
 const app = electron.app
 const BrowserWindow = electron.BrowserWindow
 
+app.commandLine.appendSwitch("--disable-http-cache");
+
 //定义窗口菜单
 const Menu = electron.Menu
 let template = [
@@ -47,7 +49,7 @@ if (shouldQuit) {
 
 function createWindow () {
   // Create the browser window.
-  mainWindow = new BrowserWindow({width: 402, height: 800,center:true,resizable:false})
+  mainWindow = new BrowserWindow({width: 416, height: 800,center:true,resizable:false})
 
   // and load the index.html of the app.
   mainWindow.loadURL(url.format({
@@ -56,8 +58,8 @@ function createWindow () {
     slashes: true
   }))
 
-  // 开发者工具开启
-  // mainWindow.webContents.openDevTools()
+  //开发者工具开启
+  //mainWindow.webContents.openDevTools()
 
   // Emitted when the window is closed.
   mainWindow.on('closed', function () {
