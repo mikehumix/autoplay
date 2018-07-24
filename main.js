@@ -1,6 +1,7 @@
 const electron = require('electron')
 const app = electron.app
 const BrowserWindow = electron.BrowserWindow
+const ipcMain = electron.ipcMain
 
 app.commandLine.appendSwitch("--disable-http-cache");
 
@@ -10,23 +11,59 @@ let template = [
 	{
 		label: '音乐',
 		click: function () {
-			mainWindow.loadURL(url.format({
-				pathname: path.join(__dirname, 'app/index.html'),
-				protocol: 'file:',
-				slashes: true
-			}))
+
+      mainWindow.webContents.send('index')
+			// mainWindow.loadURL(url.format({
+			// 	pathname: path.join(__dirname, 'app/index.html'),
+			// 	protocol: 'file:',
+			// 	slashes: true
+			// }))
 		}
 	},
 	{
 		label: '设置',
 		click: function () {
-			mainWindow.loadURL(url.format({
-				pathname: path.join(__dirname, 'app/setting.html'),
-				protocol: 'file:',
-				slashes: true
-			}))
+      mainWindow.webContents.send('setting')
+			// mainWindow.loadURL(url.format({
+			// 	pathname: path.join(__dirname, 'app/setting.html'),
+			// 	protocol: 'file:',
+			// 	slashes: true
+			// }))
 		}
-	}
+	},{
+    label: '查看',
+    submenu: [{
+      label: '重载',
+      accelerator: 'CmdOrCtrl+R',
+      click: function (item, focusedWindow) {
+        if (focusedWindow) {
+          // 重载之后, 刷新并关闭所有的次要窗体
+          if (focusedWindow.id === 1) {
+            BrowserWindow.getAllWindows().forEach(function (win) {
+              if (win.id > 1) {
+                win.close()
+              }
+            })
+          }
+          focusedWindow.reload()
+        }
+      }
+    }, {
+      label: '切换开发者工具',
+      accelerator: (function () {
+        if (process.platform === 'darwin') {
+          return 'Alt+Command+I'
+        } else {
+          return 'Ctrl+Shift+I'
+        }
+      })(),
+      click: function (item, focusedWindow) {
+        if (focusedWindow) {
+          focusedWindow.toggleDevTools()
+        }
+      }
+    }]
+  }
 ]
 
 const path = require('path')
@@ -49,8 +86,8 @@ if (shouldQuit) {
 
 function createWindow () {
   // Create the browser window.
-  mainWindow = new BrowserWindow({width: 416, height: 800,center:true,resizable:false})
-
+  mainWindow = new BrowserWindow({width: 416, height: 800,center:true,resizable:true})
+  mainWindow.webContents.send('bugs')
   // and load the index.html of the app.
   mainWindow.loadURL(url.format({
     pathname: path.join(__dirname, 'app/index.html'),
@@ -59,7 +96,7 @@ function createWindow () {
   }))
 
   //开发者工具开启
-  //mainWindow.webContents.openDevTools()
+  // mainWindow.webContents.openDevTools()
 
   // Emitted when the window is closed.
   mainWindow.on('closed', function () {

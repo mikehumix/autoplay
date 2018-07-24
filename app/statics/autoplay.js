@@ -24,8 +24,14 @@ var baseurl = 'https://api.imjad.cn/cloudmusic/?type=playlist&id=';
 var neteaseurl = 'https://music.163.com/song/media/outer/url?id=';
 axios.get(baseurl + listid)
 	.then(function (response) {
+		checkResponse(response);
 		var alltracks = response.data.playlist.tracks;
-		var info = '<span>歌单:'+ response.data.playlist.name + '</span>' + '<span>数量:'+ response.data.playlist.trackCount + '</span>'+ '<span>创建:'+ response.data.playlist.creator.nickname;
+		var info
+		if (response.data.playlist.creator) {
+			info = '<span>歌单:' + response.data.playlist.name + '</span>' + '<span>数量:' + response.data.playlist.trackCount + '</span>' + '<span>创建:' + response.data.playlist.creator.nickname;
+		} else {
+			info = '<span>歌单:' + response.data.playlist.name + '</span>' + '<span>数量:' + response.data.playlist.trackCount + '</span>' + '<span>创建:佚名';
+		}
 		document.getElementById("showinfo").innerHTML = info;
 		var songs = alltracks.map(function (item) {
 			return {
@@ -48,7 +54,13 @@ axios.get(baseurl + listid)
 //nodejs corn
 var cronJob = require('cron').CronJob;
 
-
+// 错误检查
+function checkResponse(response) {
+	if (response.data.code !== 200) {
+		loading.hide();
+		return
+	}
+}
 //音乐播放
 function mplay(num) {
 	if (is_start == false) {
