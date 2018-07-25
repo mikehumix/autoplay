@@ -1,56 +1,221 @@
 <!doctype html>
 <html>
-
 <head>
-    <meta charset="utf-8">
-    <title>音乐自动播放</title>
-    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
-    <link href="statics/weui.min.css" rel="stylesheet" type="text/css">
-    <link href="statics/APlayer.min.css" rel="stylesheet" type="text/css">
-    <style type="text/css">
-    #main {
-        width: 410px;
-        margin: 10px auto 0 auto;
-        background: #fff;
-        overflow: hidden;
-    }
-
-    .aplayer {
-        margin: 0 auto;
-    }
-
-    .greenbg{
-        background: #1aad19!important;
-        opacity: 0.7;
-    }
-
-    .copy {
-        font-size: 12px;
-        padding: 13px 0 0 0;
-        color: #999;
-        text-align: center;
-    }
-    #showinfo span{margin-right:10px;}
-    </style>
+<meta charset="utf-8">
+<title>音乐自动播放</title>
+<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
+<link href="statics/weui.min.css" rel="stylesheet" type="text/css">
+<link href="statics/APlayer.min.css" rel="stylesheet" type="text/css">
+<style type="text/css">
+* {
+	margin: 0;
+	padding: 0;
+}
+html, body {
+	overflow: hidden;
+}
+body {
+	font-family: Tahoma, Helvetica, Arial, "microsoft yahei", "Microsoft Yahei", sans-serif;
+}
+.t_player {
+	width: 410px;
+	margin: 10px auto 0 auto;
+	background: #fff;
+	overflow: hidden;
+}
+.aplayer {
+	margin: 0 auto;
+}
+.greenbg {
+	background: #1aad19 !important;
+	opacity: 0.7;
+}
+.copy {
+	font-size: 12px;
+	padding: 10px 0 0 0;
+	color: #999;
+	text-align: center;
+}
+#showinfo span {
+	margin-right: 10px;
+}
+/*setting style*/
+.t_set {
+	position: absolute;
+	left: 0;
+	top: 0;
+	bottom: 0;
+	right: 0;
+	z-index: 10;
+	height: 100%;
+	background: #f8f8f8;
+	width: 100%;
+	display: none
+}
+.page__hd {
+	padding: 20px 15px
+}
+.page__title {
+	text-align: center;
+	font-size: 24px;
+	font-weight: 400
+}
+.page__desc {
+	color: #ccc;
+	text-align: center;
+	font-size: 14px;
+	line-height: 1.1;
+}
+.copybtn {
+	position: absolute;
+	right: 16px;
+	top: 50%;
+	transform: translateY(-50%);
+	cursor: pointer;
+}
+.page__ft {
+	padding: 10px 6px;
+	text-align: left;
+}
+.page__ft.j_bottom {
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	z-index: 10000;
+	background: #fff;
+	font-size: 12px;
+	color: #808080;
+	text-align: center;
+}
+.page__ft.j_bottom a {
+	color: #808080;
+	text-decoration: underline;
+}
+</style>
 </head>
 
 <body>
-    <div id="main" class="clearfix">
-        <div class="aplayer" id="aplayer"></div>
-        <div class="copy">Autoplay V1.0_Powered By Mike.<br>
-            <div id="showinfo"></div>
-        	<span>
-        	Node<script>document.write(process.versions.node)</script> /
-        	Chromium<script>document.write(process.versions.chrome)</script> /
-        	Electron<script>document.write(process.versions.electron)</script>
-        	</span>
-        </div>
+<!--Setting Tab-->
+<div class="t_set">
+  <div class="page input js_show">
+    <div class="page__hd">
+      <h1 class="page__title">音乐定时播放系统</h1>
+      <p class="page__desc">音乐唤醒服务，定时播放，淡入淡出</p>
     </div>
-    <script src="statics/APlayer.min.js"></script>
-    <script src="statics/weui.min.js"></script>
-    <script src="statics/axios.min.js"></script>
-    <script src="statics/autoplay.js"></script>
+    <div class="page__bd"> 
+      <!--提交信息-->
+      <div id="form">
+        <div class="weui-cells__title">网易云播放列表设置(必填) <br>
+          例如：http://music.163.com/#/playlist?id=2078984903 </div>
+        <div class="weui-cells"> 
+          <!--填写1-->
+          <div class="weui-cell">
+            <div class="weui-cell__hd">
+              <label class="weui-label">播放列表id</label>
+            </div>
+            <div class="weui-cell__bd">
+              <input class="weui-input" type="text" placeholder="请输入播放列表id" required name="playlistid">
+              <div class="copybtn">粘贴</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="weui-cells"> <a class="weui-cell weui-cell_access" href="javascript:;">
+        <div class="weui-cell__bd">
+          <p>打赏我们</p>
+        </div>
+        <div class="weui-cell__ft"> </div>
+        </a> </div>
+      <div class="weui-btn-area"> <a class="weui-btn weui-btn_primary" href="javascript:" id="generate">保存</a> </div>
+    </div>
+  </div>
+  <div class="page__ft j_bottom">
+    <div>Autoplay V1.0.1_Powered By Mike.</div>
+  </div>
+</div>
 
+<!--Player Tab-->
+<div class="t_player">
+  <div class="aplayer" id="aplayer"></div>
+  <div class="copy">Autoplay V1.0.1_Powered By Mike.<br>
+    <div id="showinfo"></div>
+    <span> Node 
+    <script>document.write(process.versions.node)</script> / Chromium 
+    <script>document.write(process.versions.chrome)</script> / Electron 
+    <script>document.write(process.versions.electron)</script> 
+    </span> </div>
+</div>
+	
+<!--scripts-->
+<script type="text/javascript" src="statics/APlayer.min.js"></script> 
+<script type="text/javascript" src="statics/weui.min.js"></script> 
+<script type="text/javascript" src="statics/axios.min.js"></script> 
+<script type="text/javascript" src="statics/autoplay.js"></script> 
+<script>
+const { ipcRenderer,clipboard } = require('electron');
+
+ipcRenderer.on('setting', () => {
+	elementContainer.style.display = 'block'
+})
+
+ipcRenderer.on('index', () => {
+	elementContainer.style.display = 'none'
+})
+
+const elementContainer = document.getElementsByClassName('t_set').item(0);
+const elementGenerate = document.getElementById('generate');
+const elementpPaylistid = document.querySelector("input[name='playlistid']");
+const elementBegging = document.getElementsByClassName('weui-cell_access').item(0);
+const elementcopybtn = document.getElementsByClassName('copybtn').item(0);
+
+elementcopybtn.onclick = () => {
+	elementpPaylistid.value = clipboard.readText()
+}
+elementGenerate.onclick = () => {
+	weui.form.validate('#form', function (error) {
+		if (!error) {
+			var loading = weui.loading('设置中...');
+			addids();
+			setTimeout(() => {
+				loading.hide();
+				weui.toast('设置成功', 2000);
+			}, 800);
+			window.location.reload();
+		}
+	});
+}
+elementBegging.onclick = () => {
+	weui.dialog({
+		title: '打赏',
+		content: '<div><img src="statics/code.jpg" style="width:100%;display:block;"></div>',
+		className: 'custom-classname',
+		buttons: [{
+			label: '取消',
+			type: 'default'
+		}]
+	});
+}
+elementpPaylistid.setAttribute('placeholder', localStorage.getItem("playlistid"));
+
+function GetParam(url) {
+	regstr = /playlist\?id=([0-9]+)/;
+	reg = eval(regstr);
+	result = url.match(reg);
+	if (result && result[1]) {
+		return result[1];
+	} else {
+		return url;
+	}
+}
+
+function addids() {
+	//remove first
+	localStorage.removeItem('playlistid');
+	var n1 = elementpPaylistid.value;
+	localStorage.setItem("playlistid", GetParam(n1));
+	console.log(localStorage.getItem("playlistid"));
+}
+</script>
 </body>
-
 </html>
