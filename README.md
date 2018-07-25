@@ -30,7 +30,7 @@ Note: 安装的依赖模块有点大，建议用[npm淘宝镜像](https://npm.ta
 
 
 
-## 应用截图(感谢建停+泽康+zdd的帮助，请扫码[收入所得给他们])
+## 应用截图(谢建停+泽康+zd的帮助，新增开发者陈晨[cfvgbhn123](https://github.com/cfvgbhn123))
 ![shots](https://github.com/mikehumix/autoplay/blob/master/screenshot/00.jpg)
 
 
