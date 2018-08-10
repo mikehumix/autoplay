@@ -143,7 +143,7 @@ function playtime(num) {
 	});
 
 	var t2_play = new cronJob({
-		cronTime: '* 27-43 15 * * 1,3,5',
+		cronTime: '* 30-42 15 * * 1,3,5',
 		onTick: function () {
 			mplay(num);
 		},
@@ -153,7 +153,7 @@ function playtime(num) {
 	});
 
 	var t2_pause = new cronJob({
-		cronTime: '0 44 15 * * 1,3,5',
+		cronTime: '0 43 15 * * 1,3,5',
 		onTick: function () {
 			t2_play.stop();
 		},
