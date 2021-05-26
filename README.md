@@ -1,6 +1,6 @@
 # Autoplay 音乐定时播放
-项目背景：音乐提醒服务人工操作总会忘记或者不准时，故采用程序实现定时提醒服务！
-音乐采用网易云歌单并可以更换歌单id！
+音乐全自动播放，音乐来自网易云歌单并可以更换歌单id。
+写代码不易，请不吝Star！
 
 ## To Use 使用它
 需要安装[Git](https://git-scm.com/)和[Nodejs](https://nodejs.org/en/)，运行以下命令:
@@ -15,11 +15,8 @@ npm install
 # Run the app
 npm start
 # Package the app
-npm run-script packager
+npm run package
 ```
-
-Note: 安装的依赖模块有点大，建议用[npm淘宝镜像](https://npm.taobao.org/).
-
 
 
 ## 技术小栈
@@ -30,7 +27,7 @@ Note: 安装的依赖模块有点大，建议用[npm淘宝镜像](https://npm.ta
 
 
 
-## 应用截图(谢建停+泽康+zd的帮助，新增开发者陈晨[cfvgbhn123](https://github.com/cfvgbhn123))
+## 应用截图(谢泽康+zd的帮助)
 ![shots](https://github.com/mikehumix/autoplay/blob/master/screenshot/00.jpg)
 
 
@@ -45,4 +42,4 @@ Note: 安装的依赖模块有点大，建议用[npm淘宝镜像](https://npm.ta
 
 ## License
 
-[CC0 1.0 (Public Domain)](LICENSE.md)
+[MIT 1.0 (Public Domain)]

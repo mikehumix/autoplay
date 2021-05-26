@@ -58,18 +58,18 @@ const url = require('url')
 // 全局window
 let mainWindow = null
 
-const shouldQuit = app.makeSingleInstance((commandLine, workingDirectory) => {
-	// Someone tried to run a second instance, we should focus our window.
-	if (mainWindow) {
-		if (mainWindow.isMinimized()) mainWindow.restore()
-		mainWindow.focus()
-	}
-})
+// const shouldQuit = app.makeSingleInstance((commandLine, workingDirectory) => {
+// 	// Someone tried to run a second instance, we should focus our window.
+// 	if (mainWindow) {
+// 		if (mainWindow.isMinimized()) mainWindow.restore()
+// 		mainWindow.focus()
+// 	}
+// })
 
-// 避免重复打开应用
-if (shouldQuit) {
-	app.quit()
-}
+// // 避免重复打开应用
+// if (shouldQuit) {
+// 	app.quit()
+// }
 
 function createWindow() {
 	// Create the browser window.
@@ -77,7 +77,11 @@ function createWindow() {
 		width: 420,
 		height: 800,
 		center: true,
-		resizable: true
+		resizable: true,
+		webPreferences:{
+	      nodeIntegration:true,
+	      contextIsolation: false
+	    }
 	})
 	mainWindow.webContents.send('bugs')
 		// and load the index.html of the app.
