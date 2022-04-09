@@ -48,7 +48,7 @@ function mpause() {
   }
 }
 
-//定义开始和结束时间
+//定义开始和结束时间并播放或暂停
 function playtime(num) {
 
   var t0_play = new CronJob({
@@ -115,7 +115,7 @@ function checkResponse(response) {
 var listid = localStorage.getItem('playlistid') ? localStorage.getItem('playlistid') : '2483134673'; //912256078
 
 //加载网易云音乐api并且执行播放func
-var baseurl = 'http://www.hjmin.com/'; //网络寻找的网易云api
+var baseurl = 'http://music.eleuu.com/'; //网络寻找的网易云api,若加载失败会报错
 var listurl = baseurl + 'playlist/detail?id=';
 var infourl = baseurl + 'song/detail?ids=';
 var mp3url = 'https://music.163.com/song/media/outer/url?id=';
@@ -163,8 +163,6 @@ axios.get(listurl + listid)
       ap.list.add(songs);
 
       playtime(songs.length);
-
-      loading.hide();
 
       weui.topTips('加载了' + songs.length + '首歌', {
         duration: 2000,
